@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC
+          "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+          "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+
+
+<hibernate-mapping>
+
+	<class name="com.c2s.album.bean.AlbumBO" table="Albums">
+		<id name="Id" column="ID">
+			<generator class="sequence">
+				<param name="sequence">SEQ_ALBUM</param>
+			</generator>
+		</id>
+		<property name="album" column="name"></property>
+		<property name="type" column="type"></property>
+		<property name="category" column="category"></property>
+		<property name="description" column="description"></property>
+		<property name="year" column="year"></property>
+		<property name="userId" column="userId"></property>
+		<property name="created" column="created"></property>
+		<property name="artist" column="artist"></property>
+	</class>
+
+</hibernate-mapping>

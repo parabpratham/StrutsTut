@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN" 
+"http://struts.apache.org/dtds/struts-config_1_2.dtd">
+
+<struts-config>
+
+	<data-sources />
+
+	<form-beans>
+		<form-bean name="loginForm" type="com.c2s.login.form.LoginForm" />
+		<form-bean name="userForm" type="com.c2s.user.form.UserForm" />
+		<form-bean name="musiclistForm"
+			type="org.apache.struts.action.DynaActionForm">
+			<form-property name="action" type="java.lang.String"
+				initial="" />
+		</form-bean>
+		<form-bean name="albumForm" type="com.c2s.album.form.AlbumForm" />
+
+	</form-beans>
+
+	<global-exceptions>
+		<exception bundle="ApplicationResources"
+			key="error.RuntimeException" path="/Error.jsp"
+			type="javax.servlet.ServletException" />
+	</global-exceptions>
+
+	<global-forwards>
+		<forward name="ErrorPage" path="/Error.jsp" redirect="true" />
+	</global-forwards>
+
+
+	<action-mappings>
+
+		<action path="/home" type="com.c2s.login.action.LoginAction"
+			name="loginForm" scope="request" input="/Jsp/Login/home.jsp"
+			validate="false" parameter="method">
+			<forward name="failure" path="/Jsp/Login/home.jsp" />
+			<forward name="success" path="/musiclist.do?method=list" />
+			<forward name="join" path="/Jsp/Login/join.jsp" />
+		</action>
+
+		<action path="/join" type="com.c2s.login.action.JoinAction"
+			name="userForm" scope="request" input="/Jsp/Login/join.jsp"
+			validate="false" parameter="method">
+			<forward name="cancel" path="/Jsp/Login/home.jsp" />
+			<forward name="failure" path="/Jsp/Login/join.jsp" />
+			<forward name="success" path="/Jsp/Login/welcome.jsp" />
+		</action>
+
+		<action path="/album" type="com.c2s.album.action.AlbumAction"
+			name="albumForm" scope="request" input="/album.jsp" validate="false"
+			parameter="method">
+			<forward name="cancel" path="/musiclist.do?method=list" />
+			<forward name="success" path="/musiclist.do?method=list" />
+			<forward name="new" path="/Jsp/Album/album.jsp" />
+			<forward name="failure" path="/Jsp/Album/album.jsp" />
+		</action>
+
+		<action path="/musiclist"
+			type="com.c2s.album.action.AlbumListAction" scope="request"
+			input="/Jsp/Album/albumlist.jsp" name="musiclistForm"
+			validate="false" parameter="method">
+			<forward name="logoff" path="/login.do?method=logoff" />
+			<forward name="newalbum" path="/album.do?method=add" />
+			<forward name="success" path="/Jsp/Album/albumlist.jsp" />
+		</action>
+
+	</action-mappings>
+
+	<controller processorClass="com.c2s.startup.CustomRequestProcessor" />
+
+	<message-resources null="false" parameter="ApplicationResources" />
+
+	<!-- ========== Plug-in Definitions=========================== -->
+	<plug-in className="org.apache.struts.validator.ValidatorPlugIn">
+		<set-property property="pathnames"
+			value="/WEB-INF/validator-rules.xml,/WEB-INF/validation.xml" />
+	</plug-in>
+
+	<plug-in className="com.c2s.startup.StartupManager" />
+
+</struts-config>
